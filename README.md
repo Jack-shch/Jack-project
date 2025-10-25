@@ -2,4 +2,5 @@
 #這是Jack第一個project
 
 
-print("sfdfds")
+print("hello")
+print("")
