@@ -3,4 +3,4 @@
 
 
 print("hello")
-print("")
+print("你好")
