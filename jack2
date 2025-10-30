@@ -1,12 +1,23 @@
 import requests
+import json
+
+
 url="https://uselessfacts.jsph.pl/api/v2/facts/random"
 
 headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"}
 
 response=requests.get(url,headers=headers).json()
 
-with open ("ptt_nba_data.json" , "w" , encoding="utf-8" ) as f:
+with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
+    content =json.load(f)
+print(content)
+
+if content["text"]==response["text"]:
+    print("不填寫")
+else:
+    with open ("ptt_nba_data.json" , "a" , encoding="utf-8" ) as f:
         json.dump(response, f ,ensure_ascii=False,indent=4)
-print("寫入成功")
+    print("寫入成功")
+
 
 
