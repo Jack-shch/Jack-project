@@ -1,6 +1,6 @@
 import requests
 import json
-
+import os
 
 url="https://uselessfacts.jsph.pl/api/v2/facts/random"
 
@@ -8,16 +8,20 @@ headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537
 
 response=requests.get(url,headers=headers).json()
 
-with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
-    content =json.load(f)
-print(content)
+檔案="ptt_nba_data.json"
 
-if content["text"]==response["text"]:
-    print("不填寫")
-else:
-    with open ("ptt_nba_data.json" , "a" , encoding="utf-8" ) as f:
-        json.dump(response, f ,ensure_ascii=False,indent=4)
+if os.path.exists(檔案):
+    with open(檔案, "r", encoding="utf-8") as f:
+        x=json.load(f)
+    if  x["text"]==response["text"]:
+        print("不填寫")
+    else:
+        with open ("檔案" , "a" , encoding="utf-8" ) as f:
+            json.dump(response, f ,ensure_ascii=False,indent=4)
     print("寫入成功")
+else:
+    print("沒有檔案")
+
 
 
 
