@@ -1,1 +1,8 @@
-#jack project
+import requests
+url="https://uselessfacts.jsph.pl/api/v2/facts/random"
+
+headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"}
+
+response=requests.get(url,headers=headers)
+
+print(response.text)
