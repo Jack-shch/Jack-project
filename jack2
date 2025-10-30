@@ -8,19 +8,24 @@ headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537
 
 response=requests.get(url,headers=headers).json()
 
-檔案="ptt_nba_data.json"
+a="ptt_nba_data.json"
 
-if os.path.exists(檔案):
-    with open(檔案, "r", encoding="utf-8") as f:
+list=[]
+
+if os.path.exists(a):
+    with open(a, "r", encoding="utf-8") as f:
         x=json.load(f)
     if  x["text"]==response["text"]:
         print("不填寫")
     else:
-        with open ("檔案" , "a" , encoding="utf-8" ) as f:
+        list.append(x)
+        list.append(response)
+        with open ("" , "w" , encoding="utf-8" ) as f:
             json.dump(response, f ,ensure_ascii=False,indent=4)
     print("寫入成功")
 else:
     print("沒有檔案")
+
 
 
 
