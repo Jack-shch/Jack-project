@@ -3,20 +3,18 @@ import json
 import os
 import schedule
 
-url="https://uselessfacts.jsph.pl/api/v2/facts/random"
 
-headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"}
 
-response=requests.get(url,headers=headers).json()
 
 def 抓資料():
+    response=requests.get("https://uselessfacts.jsph.pl/api/v2/facts/random").json()
     def 是否有檔案():
         return os.path.exists('ptt_nba_data.json')
 
     def 檔案中是否有資料():
         return os.path.getsize('ptt_nba_data.json') > 0
 
-    def 重複查詢():
+    def 重複查詢(response):
         with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
             x=json.load(f)
         a=len(x)-1
@@ -49,5 +47,6 @@ schedule.every(1).seconds.do(抓資料)
 while True:
     schedule.run_pending()
     
+
 
 
