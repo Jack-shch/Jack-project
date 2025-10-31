@@ -3,9 +3,6 @@ import json
 import os
 import schedule
 
-
-
-
 def 抓資料():
     response=requests.get("https://uselessfacts.jsph.pl/api/v2/facts/random").json()
     def 是否有檔案():
@@ -14,14 +11,13 @@ def 抓資料():
     def 檔案中是否有資料():
         return os.path.getsize('ptt_nba_data.json') > 0
 
-    def 重複查詢():
+    def 重複查詢(得到的資料):
         with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
             x=json.load(f)
         a=len(x)-1
         for e in range(len(x)):
-            if response["text"]==x[e]["text"]:
+            if 得到的資料["text"]==x[e]["text"]:
                 return False
-                break
             if a==e:
                 return True
 
@@ -39,6 +35,8 @@ def 抓資料():
         else:
             print("檔案沒有資料")
     else:
+        with open ("ptt_nba_data.json" , "w" , encoding="utf-8" ) as f:
+            json.dump( response , f ,ensure_ascii=False,indent=4)
         print("檔案不存在")
 
 
@@ -46,7 +44,6 @@ schedule.every(1).seconds.do(抓資料)
 
 while True:
     schedule.run_pending()
-    
 
 
 
