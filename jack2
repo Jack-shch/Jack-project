@@ -11,38 +11,33 @@ response=requests.get(url,headers=headers).json()
 
 
 def 是否有檔案():
-    if os.path.exists('ptt_nba_data.json'):
-        return True
-    else:
-      return False
+    return os.path.exists('ptt_nba_data.json')
 
 def 檔案中是否有資料():
-    if os.path.getsize('ptt_nba_data.json') > 0:
-        return True            
-    else:
-        return False
+    return os.path.getsize('ptt_nba_data.json') > 0
+
 
 def 重複查詢():
     with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
         x=json.load(f)
-    new_list=[]
-    new_list.append(response)
-    exist_list=x
-    a=len(exist_list)-1
-    for e in range(len(exist_list)):
-        if new_list[0]["text"]==exist_list[e]["text"]:
+    a=len(x)-1
+    for e in range(len(x)):
+        if response["text"]==x[e]["text"]:
             return False
             break
         if a==e:
             return True
             
+
+
 if 是否有檔案():
     if 檔案中是否有資料():
         if 重複查詢():
-            new_list=[]
-            new_list.append(response)
+            with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
+               x=json.load(f)
+            x.append(response)
             with open ("ptt_nba_data.json" , "w" , encoding="utf-8" ) as f:
-                json.dump(new_list , f ,ensure_ascii=False,indent=4) 
+                json.dump( x , f ,ensure_ascii=False,indent=4) 
             print("寫入成功")         
         else:
             print("資料重複")
@@ -50,7 +45,6 @@ if 是否有檔案():
         print("檔案沒有資料")
 else:
     print("檔案不存在")
-
 
 
 
