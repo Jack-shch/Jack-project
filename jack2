@@ -14,7 +14,7 @@ def 抓資料():
     def 檔案中是否有資料():
         return os.path.getsize('ptt_nba_data.json') > 0
 
-    def 重複查詢(response):
+    def 重複查詢():
         with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
             x=json.load(f)
         a=len(x)-1
@@ -27,7 +27,7 @@ def 抓資料():
 
     if 是否有檔案():
         if 檔案中是否有資料():
-            if 重複查詢():
+            if 重複查詢(response):
                 with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
                    x=json.load(f)
                 x.append(response)
