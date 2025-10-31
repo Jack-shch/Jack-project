@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import schedule
 
 url="https://uselessfacts.jsph.pl/api/v2/facts/random"
 
@@ -8,44 +9,45 @@ headers={"user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537
 
 response=requests.get(url,headers=headers).json()
 
+def 抓資料():
+    def 是否有檔案():
+        return os.path.exists('ptt_nba_data.json')
 
+    def 檔案中是否有資料():
+        return os.path.getsize('ptt_nba_data.json') > 0
 
-def 是否有檔案():
-    return os.path.exists('ptt_nba_data.json')
+    def 重複查詢():
+        with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
+            x=json.load(f)
+        a=len(x)-1
+        for e in range(len(x)):
+            if response["text"]==x[e]["text"]:
+                return False
+                break
+            if a==e:
+                return True
 
-def 檔案中是否有資料():
-    return os.path.getsize('ptt_nba_data.json') > 0
-
-
-def 重複查詢():
-    with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
-        x=json.load(f)
-    a=len(x)-1
-    for e in range(len(x)):
-        if response["text"]==x[e]["text"]:
-            return False
-            break
-        if a==e:
-            return True
-            
-
-
-if 是否有檔案():
-    if 檔案中是否有資料():
-        if 重複查詢():
-            with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
-               x=json.load(f)
-            x.append(response)
-            with open ("ptt_nba_data.json" , "w" , encoding="utf-8" ) as f:
-                json.dump( x , f ,ensure_ascii=False,indent=4) 
-            print("寫入成功")         
+    if 是否有檔案():
+        if 檔案中是否有資料():
+            if 重複查詢():
+                with open('ptt_nba_data.json', 'r', encoding='utf-8') as f:
+                   x=json.load(f)
+                x.append(response)
+                with open ("ptt_nba_data.json" , "w" , encoding="utf-8" ) as f:
+                    json.dump( x , f ,ensure_ascii=False,indent=4) 
+                print("寫入成功")         
+            else:
+                print("資料重複")
         else:
-            print("資料重複")
+            print("檔案沒有資料")
     else:
-        print("檔案沒有資料")
-else:
-    print("檔案不存在")
+        print("檔案不存在")
 
 
+schedule.every(1).seconds.do(抓資料)
+
+while True:
+    schedule.run_pending()
+    
 
 
